@@ -1,0 +1,22 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "type":"module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"node app.js"
+  },  
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "4.18.2",
+    "mssql": "7.2.1",
+    "libs":"1.0.0",
+    "cors": "2.8.5",
+    "configuraciones":"1.0.0",
+    "zod": "3.21.4"
+  }
+}

@@ -1,0 +1,12 @@
+version: "3.2"
+services:
+  sqlserver:
+    container_name: sqlserver
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "y4aEBb2]CpsTmBH"
+      ACCEPT_EULA: "Y"
