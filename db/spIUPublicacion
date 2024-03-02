@@ -13,7 +13,7 @@ HISTORIAL DE CAMBIOS
 Fecha(yyyy-mm-dd) Autor   Comentario  
 ------------------- ------------------- ------------------------------------------------------------  
 ***************************************************************************************************/  
-ALTER PROC [dbo].[spIUPublicacion]
+CREATE PROC [dbo].[spIUPublicacion]
 (
     @IDPublicacion int , 
     @Titulo varchar(max),

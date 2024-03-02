@@ -1,9 +1,7 @@
-import * as config from "configuraciones";
-const API_URL = config.apiUrl;
-async function fetchDataPublicaciones({query,pagination}) {        
-    const {pageSize,pageNumber ,orderByColumn,orderDirection}=pagination        
+const API_URL = import.meta.env.VITE_API_URL;
 
-    
+async function fetchDataPublicaciones({query,pagination}) {        
+    const {pageSize,pageNumber ,orderByColumn,orderDirection}=pagination            
     try {
         const response = await fetch(`${API_URL}/publicaciones?query=${query}&pageSize=${pageSize}&pageNumber=${pageNumber}&orderByColumn=${orderByColumn}&orderDirection=${orderDirection}`);
         if (!response.ok) {

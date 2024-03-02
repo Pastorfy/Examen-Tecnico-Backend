@@ -1,5 +1,6 @@
 import { useRef, useState, useMemo, useCallback } from 'react'
 import { fetchDataPublicaciones } from '../services/apiPublicaciones.js'
+import dotenv from 'dotenv';
 
 export function usePublicaciones () {
   const [publicaciones, setPublicaciones] = useState([])

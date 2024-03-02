@@ -1,28 +1,21 @@
 import sql from 'mssql';
 
-
-import * as config from "configuraciones";
-
-
+import dotenv from 'dotenv';
+dotenv.config();   
 export default class MSSQLServer {
   constructor() {
     const {
-      dbUser,
-      dbPwd,
-      dbName,
-      server,
-      dbUserTest,
-      dbPwdTest,
-      dbNameTest,
-      serverTest,
-      nodeEnv
-    } = config;
+      DB_USER,
+      DB_PASSWORD,
+      DB_NAME,
+      DB_SERVER,      
+    } = process.env;
 
     const configProd = {
-      user: encodeURIComponent(dbUser),
-      password: dbPwd,
-      database: encodeURIComponent(dbName),
-      server: encodeURIComponent(server),
+      user: encodeURIComponent(DB_USER),
+      password: DB_PASSWORD,
+      database: encodeURIComponent(DB_NAME),
+      server: encodeURIComponent(DB_SERVER),
       pool: {
         max: 10,
         min: 0,
@@ -34,24 +27,8 @@ export default class MSSQLServer {
       },
       parseJSON: true,
     };
-
-    const configTest = {
-      user: encodeURIComponent(dbUserTest),
-      password: dbPwdTest,
-      database: encodeURIComponent(dbNameTest),
-      server: encodeURIComponent(serverTest),
-      pool: {
-        max: 10,
-        min: 0,
-        idleTimeoutMillis: 30000,
-      },
-      options: {
-        encrypt: true, 
-        trustServerCertificate: true,
-      },
-      parseJSON: true,
-    };
-    this.config = nodeEnv === "test" ? configTest : configProd;
+ 
+    this.config =  configProd;
     this.dataTypes = {
       VarChar: sql.VarChar,
       VarCharMAX: sql.VarChar(sql.MAX),

@@ -10,12 +10,12 @@
   },
   "workspaces": [
     "api",
-    "app",    
-    "configuraciones"
+    "app"    
   ],
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {    
+  "dependencies": {
+    "dotenv": "^16.4.5"
   }
 }

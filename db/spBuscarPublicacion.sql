@@ -13,7 +13,7 @@ HISTORIAL DE CAMBIOS
 Fecha(yyyy-mm-dd) Autor   Comentario  
 ------------------- ------------------- ------------------------------------------------------------  
 ***************************************************************************************************/  
-ALTER PROC [dbo].[spBuscarPublicaciones]
+CREATE PROC [dbo].[spBuscarPublicaciones]
 (
     @IDPublicacion int = 0	
 	,@pageNumber	int = 1

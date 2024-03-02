@@ -21,7 +21,7 @@ function App() {
 	const [orderByColumn,setOrderByColumn] = useState('Titulo');
 	const [orderDirection,setOrderDirection] = useState('asc');	
 	const [showContentMap, setShowContentMap] = useState({});
-
+	console.log( import.meta.env.API_URL)
 	const handleToggleContent = (id) => {
 	  setShowContentMap(prevState => ({
 		...prevState,
