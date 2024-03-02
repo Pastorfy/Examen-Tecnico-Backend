@@ -10,11 +10,12 @@
   },
   "workspaces": [
     "api",
-    "app",
-    "libs",
+    "app",    
     "configuraciones"
   ],
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {    
+  }
 }

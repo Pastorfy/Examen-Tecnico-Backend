@@ -13,12 +13,12 @@ HISTORIAL DE CAMBIOS
 Fecha(yyyy-mm-dd) Autor   Comentario  
 ------------------- ------------------- ------------------------------------------------------------  
 ***************************************************************************************************/  
-CREATE PROC [dbo].[spBuscarPublicaciones]
+ALTER PROC [dbo].[spBuscarPublicaciones]
 (
     @IDPublicacion int = 0	
-	,@PageNumber	int = 1
-	,@PageSize		int = 2147483647
-	,@query			varchar(100) = '""'
+	,@pageNumber	int = 1
+	,@pageSize		int = 2147483647
+	,@query			varchar(100) = '"*"'
 	,@orderByColumn	varchar(50) = 'Titulo'
 	,@orderDirection varchar(4) = 'asc'
 ) as
@@ -28,9 +28,9 @@ BEGIN
 	   ,@TotalRegistros int = 0;
 	 				
 	set @query = case 
-					when @query is null then '""' 
-					when @query = '' then '""'
-					when @query = '""' then '""'
+					when @query is null then '"*"' 
+					when @query = '' then '"*"'
+					when @query = '"*"' then '"*"'
 				else @query  end
 
 	declare @tempResponse as table (
@@ -49,24 +49,33 @@ BEGIN
         FechaPublicacion ,
         Contenido 
     from tblPublicaciones
-    WHERE  
-    IDPublicacion=@IDPublicacion 
+     WHERE  
+     (IDPublicacion=@IDPublicacion  or isnull(@IDPublicacion,0)=0) and 
+     (Contains(*,@query) or @query = '"*"' )
 
-    select @TotalPaginas =CEILING( cast(count(*) as decimal(20,2))/cast(@PageSize as decimal(20,2)))
+    select @TotalPaginas =CEILING( cast(count(*) as decimal(20,2))/cast(@pageSize as decimal(20,2)))
 	from @tempResponse
 
 	select @TotalRegistros = cast(COUNT(IDPublicacion) as int) from @tempResponse		
 
 	select *
 		,TotalPaginas = case when @TotalPaginas = 0 then 1 else @TotalPaginas end
-        ,@TotalRegistros 
+        ,@TotalRegistros  AS TotalRegistros
 	from @tempResponse
 	order by 
-		case when @orderByColumn = 'Titulo'			and @orderDirection = 'asc'		then Titulo end,			
+		case when @orderByColumn = 'Titulo'			and @orderDirection = 'asc'		then Titulo  end,			
+        case when @orderByColumn = 'Titulo'			and @orderDirection = 'desc'		then Titulo end desc,			
+
         case when @orderByColumn = 'Autor'			and @orderDirection = 'asc'		then Autor end,			
+        case when @orderByColumn = 'Autor'			and @orderDirection = 'desc'		then Autor end desc,			
+
+        case when @orderByColumn = 'Contenido'			and @orderDirection = 'asc'		then Contenido end,			
+        case when @orderByColumn = 'Contenido'			and @orderDirection = 'desc'		then Contenido end desc,			
+
+        case when @orderByColumn = 'FechaPublicacion'	and @orderDirection = 'asc'	then FechaPublicacion end ,				
 		case when @orderByColumn = 'FechaPublicacion'	and @orderDirection = 'desc'	then FechaPublicacion end desc				
-	OFFSET @PageSize * (@PageNumber - 1) ROWS
-    FETCH NEXT @PageSize ROWS ONLY OPTION (RECOMPILE);
+	OFFSET @pageSize * (@pageNumber - 1) ROWS
+    FETCH NEXT @pageSize ROWS ONLY OPTION (RECOMPILE);
 
 END
 

@@ -13,7 +13,7 @@ HISTORIAL DE CAMBIOS
 Fecha(yyyy-mm-dd) Autor   Comentario  
 ------------------- ------------------- ------------------------------------------------------------  
 ***************************************************************************************************/  
-CREATE PROC [dbo].[spIUPublicacion]
+ALTER PROC [dbo].[spIUPublicacion]
 (
     @IDPublicacion int , 
     @Titulo varchar(max),
@@ -21,7 +21,7 @@ CREATE PROC [dbo].[spIUPublicacion]
     @Contenido varchar(max)
 ) as
 BEGIN	 	    
-    IF(@IDPublicacion = 0)  
+    IF(isnull(@IDPublicacion,0) = 0)  
     BEGIN  	
         
 	    INSERT INTO tblPublicaciones (Titulo,Autor,Contenido) VALUES
@@ -39,6 +39,7 @@ BEGIN
         WHERE [IDPublicacion] = @IDPublicacion
 
     END   	
+
     exec [dbo].spBuscarPublicaciones @IDPublicacion=@IDPublicacion
 
 END 

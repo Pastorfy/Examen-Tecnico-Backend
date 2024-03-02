@@ -1,12 +1,16 @@
-module.exports = {    
-    apiUrl:'http://localhost:1234/api/',
-    dbUser:'sa',
-    dbPwd:'y4aEBb2]CpsTmBH',
-    dbName:'ExamenTecnicoBackedJS',
-    server:'localhost',
-    dbUserTest:'sa',
-    dbPwdTest:'y4aEBb2]CpsTmBH',
-    dbNameTest:'ExamenTecnicoBackedJS',
-    serverTest:'sa',
-    nodeEnv:'dev'
-}
+
+
+const dbUser='sa';
+const dbPwd='y4aEBb2]CpsTmBH';
+const dbName='ExamenTecnicoBackedJS';
+const server='localhost';
+const portApi = '7868';
+const apiUrl='http://localhost:7868/api';
+const dbUserTest='sa';
+const dbPwdTest='y4aEBb2]CpsTmBH';
+const dbNameTest='ExamenTecnicoBackedJS';
+const serverTest='sa';
+const nodeEnv='dev';
+
+
+export { apiUrl,dbUser,dbPwd ,dbName,server,dbUserTest,dbPwdTest,dbNameTest,serverTest,nodeEnv,portApi};

@@ -1,5 +1,8 @@
 import sql from 'mssql';
-import config  from 'configuraciones';
+
+
+import * as config from "configuraciones";
+
 
 export default class MSSQLServer {
   constructor() {
@@ -73,6 +76,7 @@ export default class MSSQLServer {
       return Promise.reject(error);
     }
   }  
+
   async executeSp(sp)
   {
       try {
@@ -102,5 +106,5 @@ export default class MSSQLServer {
 
 
 
-// module.exports = MSSQLServer;
+ 
 

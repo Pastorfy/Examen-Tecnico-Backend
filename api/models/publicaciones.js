@@ -2,13 +2,26 @@ import MSSQLServer from "../util/mssqlserver.js";
 const instancia = new MSSQLServer();
 
 export class PublicacionModel {
-    static async getAll () 
-    {
-        const publicaciones =await instancia.executeSpWithParams('SELECT * FROM [dbo].[tblPublicaciones]');
+    static async getAll ({query='',pageNumber=1,pageSize=2147483647,orderByColumn='Titulo',orderDirection='asc'}) 
+    {        
+        const publicaciones =await instancia.executeSpWithParams(`EXEC [dbo].[spBuscarPublicaciones]
+                                @IDPublicacion  = null, 
+                                @pageNumber	    = ${pageNumber}, 
+                                @pageSize	    = ${pageSize}, 
+                                @query          = '"${query}*"', 
+                                @orderByColumn	= '${orderByColumn}', 
+                                @orderDirection = '${orderDirection}'`);            
         return publicaciones;
     }
     static async getById ({ id }) {    
-        const publicaciones =await instancia.executeSpWithParams(`SELECT * FROM [dbo].[tblPublicaciones] WHERE IDPublicacion=${id}`)         
+        const publicaciones =await instancia.executeSpWithParams(`EXEC [dbo].[spBuscarPublicaciones]
+                                    @IDPublicacion  = ${id}, 
+                                    @pageNumber	    = 1, 
+	                                @pageSize	    = 2147483647, 
+                                    @query          = '""', 
+	                                @orderByColumn	= 'Titulo', 
+	                                @orderDirection = 'asc'
+                                `);            
         if (publicaciones.length === 0) return null
         return publicaciones[0]    
     }
@@ -27,8 +40,12 @@ export class PublicacionModel {
     }
     static async delete ({ id }) {
         try{
-            const publicaciones =await instancia.executeSpWithParams(`DELETE FROM [dbo].[tblPublicaciones] WHERE IDPublicacion=${id}`);        
-            return true
+            if(id){
+                const publicaciones =await instancia.executeSpWithParams(`DELETE FROM [dbo].[tblPublicaciones] WHERE IDPublicacion=${id}`);        
+                return true
+            }else{
+                return false
+            }                        
         }catch(e){            
             return false
         }         
@@ -41,9 +58,11 @@ export class PublicacionModel {
                                     @IDPublicacion =${id}, 
                                     @Titulo ='${Titulo}',
                                     @Autor='${Autor}',
-                                    @Contenido='${Contenido}'`);    
-            return publicaciones[0]    
+                                    @Contenido='${Contenido}'`);
+            
+            return publicaciones               
         }catch(e){            
+            console.log(e);
             throw new Error('Error al crear la publicación');
         }         
     }

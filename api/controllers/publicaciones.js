@@ -1,20 +1,16 @@
 import { validatePartialPublicacion,validatePublicacion } from '../schemas/publicaciones.js'
 
 export class PublicacionController {
-  constructor ({ model }) {
-    console.log('pastor');
-    console.log(model);
-    this.publicacionModel = model
-    
+  constructor ({ model }) {    
+    this.publicacionModel = model    
   }
 
-  getAll = async (req, res) => {
-    // const { genre } = req.query
-    // const publicaciones = await this.publicacionModel.getAll({ genre })
-    const publicaciones = await this.publicacionModel.getAll()
+  getAll = async (req, res) => {    
+    const { query,pageNumber,pageSize,orderByColumn,orderDirection } = req.query        
+    const publicaciones = await this.publicacionModel.getAll({query,pageNumber,pageSize,orderByColumn,orderDirection});
     res.json(publicaciones)
   }
-
+  
   getById = async (req, res) => {
     const { id } = req.params
     const publicacion = await this.publicacionModel.getById({ id })
@@ -47,6 +43,12 @@ export class PublicacionController {
     }
     const { id } = req.params
     const actualizarPublicacion = await this.publicacionModel.update({ id, input: result.data })
-    return res.json(actualizarPublicacion)
+    if(actualizarPublicacion.length==0){
+      res.status(404).json({ message: 'Publicación no encontrada.' })
+    }else{
+      return res.json(actualizarPublicacion)
+    }
+    
+    
   }
 }
